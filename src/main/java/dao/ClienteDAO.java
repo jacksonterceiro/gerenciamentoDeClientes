@@ -37,7 +37,9 @@ public class ClienteDAO {
 		int id = -1;
 		
 		listarCliente();
-		if(FormPrompt.receberInteiroComMensagem("Digite o codigo do cliente para remove-lo") == 0) {
+		id = FormPrompt.receberInteiroComMensagem("Digite o codigo do cliente para remove-lo");
+		
+		if(id == 0) {
 			return;
 		}
 	
@@ -53,6 +55,7 @@ public class ClienteDAO {
 		}  catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getStackTrace());
+			System.out.println();
 			FormPrompt.mensagemResultado("Usuário inválido !");
 		}
 		
@@ -60,14 +63,49 @@ public class ClienteDAO {
 	}
 	
 	public static void ativarCliente() {
+		Cliente cliente;
+		int id = -1;
 		
-		//System.out.println(cliente);
+		List<Cliente> clientes = getDbClientes();
+		listarCliente();
+		id = FormPrompt.receberInteiroComMensagem("Digite o codigo do cliente para ativa-lo");
+		
+		if(id == 0) {
+			return;
+		}
+		
+		try {
+			cliente = getClienteDB(id);
+			cliente.setAtivo(true);
+			Core.manager.merge(cliente);
+			FormPrompt.mensagemResultado("Usuário Ativado !");
+		} catch (Exception e) {
+			FormPrompt.mensagemResultado("Usuário inválido !");
+		}
 		
 	}
 	
 	public static void desativarCliente() {
 		
-		//System.out.println(cliente);
+		Cliente cliente;
+		int id = -1;
+		
+		List<Cliente> clientes = getDbClientes();
+		listarCliente();
+		id = FormPrompt.receberInteiroComMensagem("Digite o codigo do cliente para desativa-lo");
+		
+		if(id == 0) {
+			return;
+		}
+		
+		try {
+			cliente = getClienteDB(id);
+			cliente.setAtivo(false);
+			Core.manager.merge(cliente);
+			FormPrompt.mensagemResultado("Usuário Desativado !");
+		} catch (Exception e) {
+			FormPrompt.mensagemResultado("Usuário Desativado !");
+		}
 		
 	}
 	
